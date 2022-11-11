@@ -176,6 +176,7 @@ namespace Koh
                 success = Interop.DuplicateToken(hToken, 2, ref hDupToken);
                 if (!success)
                 {
+                    Interop.CloseHandle(hToken);
                     Console.WriteLine("  [!] GetSystem() - DuplicateToken failed!");
                     return false;
                 }
@@ -183,6 +184,8 @@ namespace Koh
                 success = Interop.ImpersonateLoggedOnUser(hDupToken);
                 if (!success)
                 {
+                    Interop.CloseHandle(hToken);
+                    Interop.CloseHandle(hDupToken);
                     Console.WriteLine("  [!] GetSystem() - ImpersonateLoggedOnUser failed!");
                     return false;
                 }
